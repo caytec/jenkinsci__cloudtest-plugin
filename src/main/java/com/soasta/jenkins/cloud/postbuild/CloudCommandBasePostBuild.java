@@ -172,6 +172,13 @@ public abstract class CloudCommandBasePostBuild extends Recorder implements Simp
   {
     DocumentBuilderFactory factory =
     DocumentBuilderFactory.newInstance();
+    String FEATURE = "http://apache.org/xml/features/disallow-doctype-decl";
+    try {
+      factory.setFeature(FEATURE, true);
+    } catch (ParserConfigurationException e) {
+      throw new IllegalStateException("ParserConfigurationException was thrown. The feature '"
+              + FEATURE + "' is not supported by your XML processor.", e);
+    }
     DocumentBuilder builder = factory.newDocumentBuilder();
     Document doc = builder.parse(new InputSource(new ByteArrayInputStream(xml.getBytes("utf-8"))));
     
